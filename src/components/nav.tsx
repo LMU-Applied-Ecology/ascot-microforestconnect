@@ -16,6 +16,7 @@ export default function Nav() {
         <Link href="/map"><p className="font-bold text-lg hover:opacity-60">Map</p></Link>
         <Link href="/microforests"><p className="font-bold text-lg hover:opacity-60">Micro-Forests</p></Link>
         <Link href="/about"><p className="font-bold text-lg hover:opacity-60">About</p></Link>
+        <Link href="/faq"><p className="font-bold text-lg hover:opacity-60">FAQ</p></Link>
         <Link href="/contact"><p className="font-bold text-lg hover:opacity-60">Contact</p></Link>
       </div>
     </nav>

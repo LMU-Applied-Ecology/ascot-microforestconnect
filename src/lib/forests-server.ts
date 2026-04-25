@@ -1,21 +1,6 @@
-import { getApps, initializeApp, cert, type ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { getAdminApp } from '@/lib/firebase-admin';
 import type { Forest } from '@/lib/firebase';
-
-function getAdminApp() {
-  if (getApps().length > 0) {
-    return getApps()[0];
-  }
-  const key = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-  if (!key || !projectId) {
-    throw new Error(
-      'Missing FIREBASE_SERVICE_ACCOUNT_KEY or NEXT_PUBLIC_FIREBASE_PROJECT_ID. Add a service account JSON string to .env for server-side Firestore access.'
-    );
-  }
-  const credential = cert(JSON.parse(key) as ServiceAccount);
-  return initializeApp({ credential, projectId });
-}
 
 function docToForest(id: string, data: Record<string, unknown>): Forest {
   const coords = (data.coordinates as Record<string, number>) ?? {};
