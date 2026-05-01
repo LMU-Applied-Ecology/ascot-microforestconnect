@@ -1,19 +1,3 @@
-import { redirect } from "next/navigation";
-
-async function handleContact(formData: FormData) {
-  "use server";
-
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const message = formData.get("message");
-
-  // TODO: send an email, write to a DB, etc.
-  console.log({ name, email, message });
-
-  // Redirect back with a simple success flag (optional)
-  redirect("/contact?submitted=1");
-}
-
 export default function ContactPage() {
   return (
     <div className="mx-[5vw]">
@@ -22,7 +6,7 @@ export default function ContactPage() {
       <div className="flex">
         <div id="form" className="w-1/2 mx-3">
           <p className="my-2">Let us know about any opportunities for improvement, any feedback, or inquiries.</p>
-          <form action={handleContact} className="rounded-lg">
+          <form className="rounded-lg" action="#" method="post">
             <div className="mb-4">
               <label
                 htmlFor="name"

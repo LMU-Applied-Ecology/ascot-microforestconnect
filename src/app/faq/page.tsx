@@ -1,10 +1,49 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
+
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { getFaqContent } from '@/lib/site-content-server';
+import { getFaqContent, type FaqContent } from '@/lib/firebase';
 
-export const dynamic = 'force-dynamic';
+export default function FaqPage() {
+  const [content, setContent] = useState<FaqContent | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function FaqPage() {
-  const content = await getFaqContent();
+  useEffect(() => {
+    const loadContent = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await getFaqContent();
+        setContent(data);
+      } catch (err) {
+        console.error('Failed to load FAQ content:', err);
+        setError('Failed to load FAQ content. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadContent();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="mx-[5vw]">
+        <h1 className="my-6 text-4xl font-bold">FAQ</h1>
+        <p className="text-gray-500">Loading content...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mx-[5vw]">
+        <h1 className="my-6 text-4xl font-bold">FAQ</h1>
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
 
   if (!content || content.items.length === 0) {
     return (
