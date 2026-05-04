@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { RichMarkdown } from '@/components/RichMarkdown';
 import { getAboutContent, type AboutContent } from '@/lib/firebase';
 
 export default function AboutUsPage() {
@@ -60,9 +59,7 @@ export default function AboutUsPage() {
       {content.sections.map((section, i) => (
         <div key={i} className="mb-8">
           <h2 className="mb-3 text-2xl font-semibold">{section.heading}</h2>
-          <div className="prose max-w-none">
-            <ReactMarkdown>{section.body}</ReactMarkdown>
-          </div>
+          <RichMarkdown>{section.body}</RichMarkdown>
         </div>
       ))}
     </div>

@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { RichMarkdown } from '@/components/RichMarkdown';
 import { getFaqContent, type FaqContent } from '@/lib/firebase';
 
 export default function FaqPage() {
@@ -63,9 +62,9 @@ export default function FaqPage() {
             <summary className="cursor-pointer text-lg font-medium">
               {item.question}
             </summary>
-            <div className="prose mt-3 max-w-none">
-              <ReactMarkdown>{item.answer}</ReactMarkdown>
-            </div>
+            <RichMarkdown className="mt-3 max-w-none text-foreground">
+              {item.answer}
+            </RichMarkdown>
           </details>
         ))}
       </div>
