@@ -10,6 +10,8 @@ export type Forest = {
   estYear: number;
   forestName: string;
   sqft: number;
+  /** When true, excluded from public map and microforests listing. */
+  private?: boolean;
 };
 
 export type AboutSection = { heading: string; body: string };
@@ -56,15 +58,18 @@ function normalizeForest(id: string, data: Record<string, unknown>): Forest {
     estYear: Number(data.estYear) || 0,
     forestName: (data.forestName as string) ?? '',
     sqft: Number(data.sqft) || 0,
+    private: data.private === true,
   };
 }
 
 export async function getForests(): Promise<Forest[]> {
   const db = getClientDb();
   const snapshot = await getDocs(collection(db, 'forests'));
-  return snapshot.docs.map((snapshotDoc) =>
-    normalizeForest(snapshotDoc.id, snapshotDoc.data() as Record<string, unknown>)
-  );
+  return snapshot.docs
+    .map((snapshotDoc) =>
+      normalizeForest(snapshotDoc.id, snapshotDoc.data() as Record<string, unknown>)
+    )
+    .filter((forest) => !forest.private);
 }
 
 export async function getForestById(id: string): Promise<Forest | null> {
